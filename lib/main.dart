@@ -59,18 +59,18 @@ class _CounterScreenState extends State<CounterScreen> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          buildFloatingActionBottom(
-            Icons.remove,
-            resultado == 0
+          BottomCount(
+            icon: Icon(Icons.remove),
+            pressed: resultado == 0
                 ? null
                 : () {
                     operacao(false);
                   },
             backgroundColor: resultado == 0 ? Colors.grey : Colors.red,
           ),
-          buildFloatingActionBottom(
-            Icons.add,
-            () {
+          BottomCount(
+            icon: Icon(Icons.add),
+            pressed: () {
               operacao(true);
             },
           ),
@@ -78,14 +78,26 @@ class _CounterScreenState extends State<CounterScreen> {
       ),
     );
   }
+}
 
-  FloatingActionButton buildFloatingActionBottom(
-      IconData icon, Function pressed,
-      {Color backgroundColor}) {
+class BottomCount extends StatefulWidget {
+  final Color backgroundColor;
+  final Function pressed;
+  final Widget icon;
+
+  const BottomCount({Key key, this.backgroundColor, this.pressed, this.icon})
+      : super(key: key);
+  @override
+  _BottomCountState createState() => _BottomCountState();
+}
+
+class _BottomCountState extends State<BottomCount> {
+  @override
+  Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: backgroundColor,
-      onPressed: pressed,
-      child: Icon(icon),
+      backgroundColor: widget.backgroundColor,
+      onPressed: widget.pressed,
+      child: widget.icon,
     );
   }
 }
