@@ -16,6 +16,18 @@ class CounterScreen extends StatefulWidget {
 class _CounterScreenState extends State<CounterScreen> {
   var resultado = 0;
 
+  void operacao(bool eSoma) {
+    if (eSoma) {
+      setState(() {
+        resultado += 1;
+      });
+    } else {
+      setState(() {
+        resultado -= 1;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,29 +59,33 @@ class _CounterScreenState extends State<CounterScreen> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            onPressed: resultado == 0
+          buildFloatingActionBottom(
+            Icons.remove,
+            resultado == 0
                 ? null
                 : () {
-                    print('Botão pressionado');
-                    setState(() {
-                      resultado -= 1;
-                    });
+                    operacao(false);
                   },
-            child: Icon(Icons.remove),
-            backgroundColor: resultado == 0 ? Colors.grey : Colors.blue,
+            backgroundColor: resultado == 0 ? Colors.grey : Colors.red,
           ),
-          FloatingActionButton(
-            onPressed: () {
-              print('Botão pressionado');
-              setState(() {
-                resultado += 1;
-              });
+          buildFloatingActionBottom(
+            Icons.add,
+            () {
+              operacao(true);
             },
-            child: Icon(Icons.add),
           ),
         ],
       ),
+    );
+  }
+
+  FloatingActionButton buildFloatingActionBottom(
+      IconData icon, Function pressed,
+      {Color backgroundColor}) {
+    return FloatingActionButton(
+      backgroundColor: backgroundColor,
+      onPressed: pressed,
+      child: Icon(icon),
     );
   }
 }
